@@ -1,0 +1,39 @@
+version: '3.4'
+
+services:
+  gestionstock-db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=gestionstock_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+
+    networks:
+      - my_app_network
+
+  adminer:
+    image: adminer
+    restart: always
+    networks:
+      - my_app_network
+
+  gestionstock.productapi:
+    image: ${DOCKER_REGISTRY-}gestionstock-product-api
+    build:
+      context: .
+      dockerfile: GestionStock.ProductApi/Dockerfile
+    networks:
+        - my_app_network
+
+  gestionstock.orderapi:
+    image: ${DOCKER_REGISTRY-}gestionstock-order-api
+    build:
+      context: .
+      dockerfile: GestionStock.OrderApi/Dockerfile
+    networks:
+      - my_app_network
+
+networks:
+  my_app_network:
+    name: gestion-stock-network
+

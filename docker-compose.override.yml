@@ -1,0 +1,44 @@
+version: '3.4'
+
+services:
+  gestionstock-db:
+    restart: always
+    container_name: gestionstock-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: gestionstock_db
+    ports:
+      - 5432:5432
+
+  adminer:
+    restart: always
+    container_name: adminer
+    ports:
+      - 8082:8080
+
+
+  gestionstock.productapi:
+    container_name: gestionstock-product-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - 8080:8080
+      - 8081:8081
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  gestionstock.orderapi:
+    container_name: gestionstock-order-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+    ports:
+      - "8080"
+      - "8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
