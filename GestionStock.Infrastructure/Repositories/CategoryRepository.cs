@@ -53,6 +53,11 @@ namespace GestionStock.Infrastructure.Repositories
 
         public async Task<CategoryEntity> UpdateAsync(CategoryEntity model)
         {
+            var existingEntity = await _context.Categories.FindAsync(model.Id);
+            if (existingEntity != null)
+            {
+                _context.Entry(existingEntity).State = EntityState.Detached;
+            }
             _context.Categories.Update(model);
             await _context.SaveChangesAsync().ConfigureAwait(true);
             return model;

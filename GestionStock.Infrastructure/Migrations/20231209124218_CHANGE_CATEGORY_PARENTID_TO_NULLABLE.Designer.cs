@@ -3,6 +3,7 @@ using System;
 using GestionStock.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GestionStock.Infrastructure.Migrations
 {
     [DbContext(typeof(GestionStockDbContext))]
-    partial class GestionStockDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231209124218_CHANGE_CATEGORY_PARENTID_TO_NULLABLE")]
+    partial class CHANGE_CATEGORY_PARENTID_TO_NULLABLE
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

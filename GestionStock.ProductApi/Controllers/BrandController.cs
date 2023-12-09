@@ -25,7 +25,7 @@ namespace GestionStock.ProductApi.Controllers
 
         [HttpGet]
         [Route("get-brand-id/{Id:guid}")]
-        public async Task<ActionResult<BrandOutputDto>> GetProductById(Guid Id)
+        public async Task<ActionResult<BrandOutputDto>> GetBrandById(Guid Id)
         {
             return Ok(await _brandService.GetIdAsync(Id));
         }
