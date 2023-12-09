@@ -13,7 +13,7 @@ namespace GestionStock.Domain.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
 
         public List<ProductEntity> Products { get; set; }
     }

@@ -23,22 +23,22 @@ namespace GestionStock.Infrastructure.Repositories
 
             if(entity == null)
             {
-                throw new KeyNotFoundException("Brand doesn't exist ");
+                throw new KeyNotFoundException($"Brand Id {id} doesn't exist ");
             }
             return entity;
         }
 
-        public Task<IEnumerable<BrandEntity>> GetAllAsync()
+        public async Task<IEnumerable<BrandEntity>> GetAllAsync()
         {
-            IEnumerable<BrandEntity> brands = _context.Brands;
-            return Task.FromResult(brands);
+            IEnumerable<BrandEntity> brands = await _context.Brands.ToListAsync();
+            return brands;
         }
 
-        public Task<IEnumerable<BrandEntity>> GetAllWithDependances()
+        public async Task<IEnumerable<BrandEntity>> GetAllWithDependances()
         {
-            IEnumerable<BrandEntity> brands = _context.Brands
-                    .Include(b => b.Products);
-            return Task.FromResult(brands);
+            IEnumerable<BrandEntity> brands = await _context.Brands
+                    .Include(b => b.Products).ToListAsync();
+            return brands;
            
         }
 
@@ -51,6 +51,11 @@ namespace GestionStock.Infrastructure.Repositories
 
         public async Task<BrandEntity> UpdateAsync(BrandEntity model)
         {
+            var existingEntity = await _context.Brands.FindAsync(model.Id);
+            if (existingEntity != null)
+            {
+                _context.Entry(existingEntity).State = EntityState.Detached;
+            }
             _context.Brands.Update(model);
             await _context.SaveChangesAsync().ConfigureAwait(true);
             return model;

@@ -23,22 +23,24 @@ namespace GestionStock.Infrastructure.Repositories
 
             if (entity == null)
             {
-                throw new KeyNotFoundException("Brand doesn't exist ");
+                throw new KeyNotFoundException($"Category Id {id} doesn't exist ");
             }
             return entity;
         }
 
-        public Task<IEnumerable<CategoryEntity>> GetAllAsync()
+        public async Task<IEnumerable<CategoryEntity>> GetAllAsync()
         {
-            IEnumerable<CategoryEntity> Categories = _context.Categories;
-            return Task.FromResult(Categories);
+            IEnumerable<CategoryEntity> Categories = await _context.Categories
+                    .ToListAsync();
+            return Categories;
         }
 
-        public Task<IEnumerable<CategoryEntity>> GetAllWithDependances()
+        public async Task<IEnumerable<CategoryEntity>> GetAllWithDependances()
         {
-            IEnumerable<CategoryEntity> Categories = _context.Categories
-                    .Include(c => c.Products);
-            return Task.FromResult(Categories);
+            IEnumerable<CategoryEntity> Categories = await _context.Categories
+                    .Include(c => c.Products)
+                    .ToListAsync();
+            return Categories;
 
         }
 
