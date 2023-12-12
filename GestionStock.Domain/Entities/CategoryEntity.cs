@@ -14,7 +14,7 @@ namespace GestionStock.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public Guid? ParentId { get; set; }
-
+        [InverseProperty("Category")]
         public List<ProductEntity> Products { get; set; }
     }
 }

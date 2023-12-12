@@ -37,3 +37,6 @@ networks:
   my_app_network:
     name: gestion-stock-network
 
+volumes:
+  data-postgres:
+

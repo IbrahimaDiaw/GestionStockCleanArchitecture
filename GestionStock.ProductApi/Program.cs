@@ -1,5 +1,5 @@
-using GestionStock.Infrastructure;
-using GestionStock.Infrastructure.Extensions;
+using GestionStock.DAL;
+using GestionStock.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddServicesExtenstion();
+builder.Services.AddRepositoriesExtenstion();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

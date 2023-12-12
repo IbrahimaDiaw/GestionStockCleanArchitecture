@@ -14,8 +14,8 @@ namespace GestionStock.Domain.Entities
         public string Name { get; set; }
         public string Code { get; set; }
         public Guid CategoryId { get; set; }
-        public Guid BrandId { get; set; }
         public CategoryEntity Category { get; set; }
+        public Guid BrandId { get; set; }
         public BrandEntity Brand { get; set; }
         public decimal Price { get; set; }
         public decimal Cost { get; set; }

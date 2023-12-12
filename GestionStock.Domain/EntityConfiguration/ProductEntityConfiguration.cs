@@ -16,12 +16,6 @@ namespace GestionStock.Domain.EntityConfiguration
         {
             builder.Property(p => p.Name)
                  .IsRequired();
-            builder.HasOne<BrandEntity>()
-                .WithMany()
-                .HasForeignKey(p => p.BrandId);
-            builder.HasOne<CategoryEntity>()
-                .WithMany()
-                .HasForeignKey(p => p.CategoryId);
         }
     }
 }

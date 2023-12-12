@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using GestionStock.Application.DTOs.Brand;
 using GestionStock.Application.ObjetMetier;
+using GestionStock.DAL.Repositories.Interfaces;
 using GestionStock.Domain.Entities;
-using GestionStock.Infrastructure.Repositories.Interfaces;
 using GestionStock.Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
