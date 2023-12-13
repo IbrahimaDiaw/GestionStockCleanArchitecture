@@ -14,8 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GestionStock.Application\GestionStock.Application.csproj" />
-    <ProjectReference Include="..\..\GestionStock.DAL\GestionStock.DAL.csproj" />
+    <ProjectReference Include="..\GestionStock.Application\GestionStock.Application.csproj" />
+    <ProjectReference Include="..\GestionStock.DAL\GestionStock.DAL.csproj" />
     <ProjectReference Include="..\GestionStock.Domain\GestionStock.Domain.csproj" />
   </ItemGroup>
 

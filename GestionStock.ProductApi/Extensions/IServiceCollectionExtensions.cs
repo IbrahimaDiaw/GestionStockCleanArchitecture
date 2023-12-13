@@ -8,14 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionStock.DAL.Extensions
+namespace GestionStock.ProductApi.Extensions
 {
     public static class IServiceCollectionExtensions
     {
         public static void AddRepositoriesExtenstion(this IServiceCollection services)
         {
             services.AddRepositories();
-            services.AddAutoMapper(typeof(BrandProfile), typeof(CategoryProfile), typeof(ProductProfile));
+            services.AddAutoMapper(typeof(BrandProfile));
         }
         private static void AddRepositories(this IServiceCollection services)
         {

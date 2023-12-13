@@ -1,6 +1,7 @@
+
 using GestionStock.Application.Profiles;
 using GestionStock.DAL;
-using GestionStock.DAL.Extensions;
+using GestionStock.ProductApi.Extensions;
 using GestionStock.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
