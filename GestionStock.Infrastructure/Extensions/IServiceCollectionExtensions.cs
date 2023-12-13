@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionStock.Domain.Extensions
+namespace GestionStock.Infrastructure.Extensions
 {
     public static class IServiceCollectionExtensions
     {
