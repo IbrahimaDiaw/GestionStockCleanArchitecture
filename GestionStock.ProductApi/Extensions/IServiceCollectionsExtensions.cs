@@ -1,16 +1,10 @@
 ﻿using GestionStock.Application.Profiles;
-using GestionStock.DAL.Repositories;
 using GestionStock.DAL.Repositories.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GestionStock.DAL.Repositories;
 
 namespace GestionStock.ProductApi.Extensions
 {
-    public static class IServiceCollectionExtensions
+    public static class IServiceCollectionsExtensions
     {
         public static void AddRepositoriesExtenstion(this IServiceCollection services)
         {

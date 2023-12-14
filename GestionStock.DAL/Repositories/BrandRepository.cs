@@ -13,11 +13,9 @@ namespace GestionStock.DAL.Repositories
     public class BrandRepository : IBrandRepository
     {
         private readonly GestionStockDbContext _context;
-        private readonly IUnitOfWork _unitOfWork;
-        public BrandRepository(GestionStockDbContext context, IUnitOfWork unitOfWork)
+        public BrandRepository(GestionStockDbContext context)
         {
             _context = context;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<BrandEntity> GetByIdAsync(Guid id)
@@ -48,7 +46,7 @@ namespace GestionStock.DAL.Repositories
         public async Task<BrandEntity> InsertAsync(BrandEntity model)
         {
             BrandEntity entity = _context.Brands.Add(model).Entity;
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return entity;
         }
 
@@ -60,14 +58,14 @@ namespace GestionStock.DAL.Repositories
                 _context.Entry(existingEntity).State = EntityState.Detached;
             }
             _context.Brands.Update(entity);
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return entity;
         }
 
         public async Task DeleteAsync(BrandEntity model)
         {
             _context.Brands.Remove(model);
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

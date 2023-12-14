@@ -13,11 +13,9 @@ namespace GestionStock.DAL.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly GestionStockDbContext _context;
-        private readonly IUnitOfWork _unitOfWork;
-        public ProductRepository(GestionStockDbContext context, IUnitOfWork unitOfWork)
+        public ProductRepository(GestionStockDbContext context)
         {
             _context = context;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<ProductEntity> GetByIdAsync(Guid id)
@@ -50,21 +48,21 @@ namespace GestionStock.DAL.Repositories
         public async Task<ProductEntity> InsertAsync(ProductEntity model)
         {
             ProductEntity entity = _context.Products.Add(model).Entity;
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return entity;
         }
 
         public async Task<ProductEntity> UpdateAsync(ProductEntity model)
         {
             _context.Products.Update(model);
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return model;
         }
 
         public async Task DeleteAsync(ProductEntity model)
         {
             _context.Products.Remove(model);
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<ProductEntity>> GetProduitsByIdCategory(Guid id)

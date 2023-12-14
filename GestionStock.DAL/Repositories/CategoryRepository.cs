@@ -13,11 +13,9 @@ namespace GestionStock.DAL.Repositories
     public class CategoryRepository : ICategoryRepository
     {
         private readonly GestionStockDbContext _context;
-        private readonly IUnitOfWork _unitOfWork;
-        public CategoryRepository(GestionStockDbContext context, IUnitOfWork unitOfWork)
+        public CategoryRepository(GestionStockDbContext context)
         {
             _context = context;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<CategoryEntity> GetByIdAsync(Guid id)
@@ -50,7 +48,7 @@ namespace GestionStock.DAL.Repositories
         public async Task<CategoryEntity> InsertAsync(CategoryEntity model)
         {
             CategoryEntity entity = _context.Categories.Add(model).Entity;
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return entity;
         }
 
@@ -62,14 +60,14 @@ namespace GestionStock.DAL.Repositories
                 _context.Entry(existingEntity).State = EntityState.Detached;
             }
             _context.Categories.Update(model);
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return model;
         }
 
         public async Task DeleteAsync(CategoryEntity model)
         {
             _context.Categories.Remove(model);
-            await _unitOfWork.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }

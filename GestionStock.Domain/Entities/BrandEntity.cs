@@ -16,5 +16,7 @@ namespace GestionStock.Domain.Entities
         public string Description { get; set; }
         [InverseProperty("Brand")]
         public List<ProductEntity> Products { get; set; }
+
+        public string Test { get; set; }
     }
 }
