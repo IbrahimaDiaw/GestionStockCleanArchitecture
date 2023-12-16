@@ -14,6 +14,6 @@ namespace GestionStock.DAL.Repositories.Interfaces
         Task<IEnumerable<TEntity>> GetAllWithDependances();
         Task<TEntity> InsertAsync(TEntity model);
         Task<TEntity> UpdateAsync(TEntity model);
-        Task DeleteAsync(TEntity model);
+        void DeleteAsync(TEntity model);
     }
 }

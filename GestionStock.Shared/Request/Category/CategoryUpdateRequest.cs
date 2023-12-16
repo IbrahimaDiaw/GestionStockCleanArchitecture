@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GestionStock.Shared.Request.Brand
+namespace GestionStock.Shared.Request.Category
 {
-    public class BrandUpdateRequest : BrandInputRequest
+    public class CategoryUpdateRequest : CategoryInputRequest
     {
     }
 }

@@ -1,4 +1,5 @@
-﻿using GestionStock.Application.DTOs.Brand;
+﻿using GestionStock.Shared.Request.Brand;
+using GestionStock.Shared.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace GestionStock.Infrastructure.Services.Interfaces
 {
-    public interface IBrandService : IServiceBase<BrandOutputDto, BrandCreateDto, BrandUpdateDto>
+    public interface IBrandService : IServiceBase<BrandResponse, BrandCreateRequest, BrandUpdateRequest>
     {
-        Task<List<BrandOutputDto>> GetAllWithProductsAsync();
+        Task<List<BrandResponse>> GetAllWithProductsAsync();
     }
 }

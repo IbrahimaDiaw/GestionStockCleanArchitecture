@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace GestionStock.Shared.Request.Brand
+namespace GestionStock.Shared.Request.Category
 {
-    public class BrandCreateRequest : BrandInputRequest
+    public class CategoryCreateRequest : CategoryInputRequest
     {
         [JsonIgnore]
         public Guid Id { get; set; } = Guid.NewGuid();

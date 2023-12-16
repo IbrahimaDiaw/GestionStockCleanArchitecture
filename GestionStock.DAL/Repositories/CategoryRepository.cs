@@ -45,11 +45,10 @@ namespace GestionStock.DAL.Repositories
 
         }
 
-        public async Task<CategoryEntity> InsertAsync(CategoryEntity model)
+        public Task<CategoryEntity> InsertAsync(CategoryEntity model)
         {
             CategoryEntity entity = _context.Categories.Add(model).Entity;
-            await _context.SaveChangesAsync();
-            return entity;
+            return Task.FromResult(entity);
         }
 
         public async Task<CategoryEntity> UpdateAsync(CategoryEntity model)
@@ -60,14 +59,12 @@ namespace GestionStock.DAL.Repositories
                 _context.Entry(existingEntity).State = EntityState.Detached;
             }
             _context.Categories.Update(model);
-            await _context.SaveChangesAsync();
             return model;
         }
 
-        public async Task DeleteAsync(CategoryEntity model)
+        public void DeleteAsync(CategoryEntity model)
         {
             _context.Categories.Remove(model);
-            await _context.SaveChangesAsync();
         }
     }
 }

@@ -12,6 +12,6 @@ namespace GestionStock.Infrastructure.Services.Interfaces
         Task<TOuputDto> GetIdAsync(Guid id);
         Task<TOuputDto> CreateAsync(TCreateDto createDto);
         Task<TOuputDto> UpdateAsync(Guid Id, TUpdateDto updateDto);
-        Task DeleteAsync(Guid Id);
+        void DeleteAsync(Guid Id);
     }
 }

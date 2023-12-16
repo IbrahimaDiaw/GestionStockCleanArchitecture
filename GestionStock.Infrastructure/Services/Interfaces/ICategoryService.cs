@@ -1,4 +1,5 @@
-﻿using GestionStock.Application.DTOs.Category;
+﻿using GestionStock.Shared.Request.Category;
+using GestionStock.Shared.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GestionStock.Infrastructure.Services.Interfaces
 {
-    public interface ICategoryService : IServiceBase<CategoryOutputDto, CategoryCreateDto, CategoryUpdateDto>
+    public interface ICategoryService : IServiceBase<CategoryResponse, CategoryCreateRequest, CategoryUpdateRequest>
     {
     }
 }

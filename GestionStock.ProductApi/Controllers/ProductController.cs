@@ -1,5 +1,6 @@
-﻿using GestionStock.Application.DTOs.Product;
-using GestionStock.Infrastructure.Services.Interfaces;
+﻿using GestionStock.Infrastructure.Services.Interfaces;
+using GestionStock.Shared.Request.Product;
+using GestionStock.Shared.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,29 +18,29 @@ namespace GestionStock.ProductApi.Controllers
 
         [HttpPost]
         [Route("create-product")]
-        public async Task<ActionResult<ProductOutputDto>> CreateProduct(ProductCreateDto input)
+        public async Task<ActionResult<ProductResponse>> CreateProduct(ProductCreateRequest input)
         {
-            ProductOutputDto output = await _productService.CreateAsync(input);
+            ProductResponse output = await _productService.CreateAsync(input);
             return Ok(output);
         }
 
         [HttpGet]
         [Route("get-product-id/{Id:guid}")]
-        public async Task<ActionResult<ProductOutputDto>> GetProductById(Guid Id)
+        public async Task<ActionResult<ProductResponse>> GetProductById(Guid Id)
         {
             return Ok(await _productService.GetIdAsync(Id));
         }
         [HttpGet]
         [Route("get-all-products")]
-        public async Task<ActionResult<List<ProductOutputDto>>> GetAllProducts()
+        public async Task<ActionResult<List<ProductResponse>>> GetAllProducts()
         {
             return Ok(await _productService.GetAllAsync());
         }
         [HttpPut]
         [Route("update-product/{Id:guid}")]
-        public async Task<ActionResult<ProductOutputDto>> UpdateAsync(Guid Id, ProductUpdateDto updateDto)
+        public async Task<ActionResult<ProductResponse>> UpdateAsync(Guid Id, ProductUpdateRequest updateRequest)
         {
-            ProductOutputDto result = await _productService.UpdateAsync(Id, updateDto);
+            ProductResponse result = await _productService.UpdateAsync(Id, updateRequest);
             return Ok(result);
         }
 
@@ -47,7 +48,7 @@ namespace GestionStock.ProductApi.Controllers
         [Route("delete-product/{Id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid Id)
         {
-            await _productService.DeleteAsync(Id);
+            _productService.DeleteAsync(Id);
             return Ok(true);
         }
     }

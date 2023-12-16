@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using GestionStock.Application.DTOs.Category;
-using GestionStock.Application.DTOs.Product;
-using GestionStock.Application.ObjetMetier;
 using GestionStock.DAL.Repositories.Interfaces;
 using GestionStock.Domain.Entities;
 using GestionStock.Infrastructure.Services.Interfaces;
+using GestionStock.Shared.Request.Product;
+using GestionStock.Shared.Response;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -26,14 +25,13 @@ namespace GestionStock.Infrastructure.Services
             _mapper = serviceProvider.GetRequiredService<IMapper>();
             _logger = serviceProvider.GetRequiredService<ILogger<ProductService>>();
         }
-        public async Task<ProductOutputDto> CreateAsync(ProductCreateDto createDto)
+        public async Task<ProductResponse> CreateAsync(ProductCreateRequest createRequest)
         {
-            try
-            {
-                ProductOM productOM = _mapper.Map<ProductOM>(createDto);
-                ProductEntity entity = _mapper.Map<ProductEntity>(productOM);
+            try { 
+ 
+                ProductEntity entity = _mapper.Map<ProductEntity>(createRequest);
                 await _repository.InsertAsync(entity);
-                return _mapper.Map<ProductOutputDto>(entity);
+                return _mapper.Map<ProductResponse>(entity);
             }
             catch (Exception ex)
             {
@@ -42,31 +40,33 @@ namespace GestionStock.Infrastructure.Services
             }
         }
 
-        public async Task DeleteAsync(Guid Id)
+        public void DeleteAsync(Guid Id)
         {
-            try
-            {
-                ProductEntity entity = await _repository.GetByIdAsync(Id);
-                if (entity == null)
-                {
-                    _logger.LogError($"Product Id {Id} is not found");
-                    throw new KeyNotFoundException("Product not found");
-                }
-                await _repository.DeleteAsync(entity);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"Product Id {Id} element deletion failed : {ex.Message}");
-                throw new KeyNotFoundException();
-            }
+
+            throw new NotImplementedException();
+            //try
+            //{
+            //    ProductEntity entity = await _repository.GetByIdAsync(Id);
+            //    if (entity == null)
+            //    {
+            //        _logger.LogError($"Product Id {Id} is not found");
+            //        throw new KeyNotFoundException("Product not found");
+            //    }
+            //    await _repository.DeleteAsync(entity);
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError($"Product Id {Id} element deletion failed : {ex.Message}");
+            //    throw new KeyNotFoundException();
+            //}
         }
 
-        public async Task<List<ProductOutputDto>> GetAllAsync()
+        public async Task<List<ProductResponse>> GetAllAsync()
         {
             try
             {
                 IEnumerable<ProductEntity> entities = await _repository.GetAllAsync();
-                return _mapper.Map<List<ProductOutputDto>>(entities);
+                return _mapper.Map<List<ProductResponse>>(entities);
             }
             catch (Exception ex)
             {
@@ -75,12 +75,12 @@ namespace GestionStock.Infrastructure.Services
             }
         }
 
-        public async Task<ProductOutputDto> GetIdAsync(Guid id)
+        public async Task<ProductResponse> GetIdAsync(Guid id)
         {
             try
             {
                 ProductEntity entity = await _repository.GetByIdAsync(id);
-                return _mapper.Map<ProductOutputDto>(entity);
+                return _mapper.Map<ProductResponse>(entity);
 
             }
             catch (Exception ex)
@@ -90,19 +90,19 @@ namespace GestionStock.Infrastructure.Services
             }
         }
 
-        public async Task<ProductOutputDto> UpdateAsync(Guid Id, ProductUpdateDto updateDto)
+        public async Task<ProductResponse> UpdateAsync(Guid Id, ProductUpdateRequest updateRequest)
         {
             try
             {
                 ProductEntity entity = await _repository.GetByIdAsync(Id);
-                if (entity == null || Id != updateDto.Id)
+                if (entity == null || Id != updateRequest.Id)
                 {
                     _logger.LogError($"Product Id {Id} is not found");
                     throw new KeyNotFoundException();
                 }
-                entity = _mapper.Map<ProductEntity>(updateDto);
+                entity = _mapper.Map<ProductEntity>(updateRequest);
                 await _repository.UpdateAsync(entity);
-                return _mapper.Map<ProductOutputDto>(entity);
+                return _mapper.Map<ProductResponse>(entity);
             }
             catch (Exception ex)
             {

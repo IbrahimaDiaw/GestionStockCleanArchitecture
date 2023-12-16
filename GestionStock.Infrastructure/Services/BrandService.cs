@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using GestionStock.Application.DTOs.Brand;
-using GestionStock.Application.ObjetMetier;
 using GestionStock.DAL.Repositories.Interfaces;
 using GestionStock.Domain.Entities;
 using GestionStock.Infrastructure.Services.Interfaces;
+using GestionStock.Shared.Request.Brand;
+using GestionStock.Shared.Response;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
@@ -27,10 +27,9 @@ namespace GestionStock.Infrastructure.Services
             _logger = serviceProvider.GetRequiredService<ILogger<BrandService>>();
         }
 
-        public async Task<BrandOutputDto> CreateAsync(BrandCreateDto createDto)
+        public async Task<BrandResponse> CreateAsync(BrandCreateRequest createRequest)
         {
-            BrandOM brandOM = _mapper.Map<BrandOM>(createDto);
-            BrandEntity entity = _mapper.Map<BrandEntity>(brandOM);
+            BrandEntity entity = _mapper.Map<BrandEntity>(createRequest);
             try
             {
                 await _repository.InsertAsync(entity);
@@ -38,23 +37,25 @@ namespace GestionStock.Infrastructure.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Brand creation is failed {ex.Message}");
+                throw new NullReferenceException();
             }
  
-            return _mapper.Map<BrandOutputDto>(entity);
+            return _mapper.Map<BrandResponse>(entity);
         }
 
-        public async Task DeleteAsync(Guid Id)
+        public void DeleteAsync(Guid Id)
         {
-            BrandEntity entity = await _repository.GetByIdAsync(Id);
-            if (entity == null)
-            {
-                _logger.LogError($"Brand Id {Id} is not found");
-                throw new KeyNotFoundException("Brand not found");
-            }
-            await _repository.DeleteAsync(entity);
+            throw new NotImplementedException();
+            //BrandEntity entity = await _repository.GetByIdAsync(Id);
+            //if (entity == null)
+            //{
+            //    _logger.LogError($"Brand Id {Id} is not found");
+            //    throw new KeyNotFoundException("Brand not found");
+            //}
+            //_repository.DeleteAsync(entity);
         }
 
-        public async Task<List<BrandOutputDto>> GetAllAsync()
+        public async Task<List<BrandResponse>> GetAllAsync()
         {
             IEnumerable<BrandEntity> entities = new List<BrandEntity>();
             try
@@ -64,11 +65,12 @@ namespace GestionStock.Infrastructure.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Problems to retrieve data : {ex.Message}");
+                throw new NullReferenceException();
             }
-            return _mapper.Map<List<BrandOutputDto>>(entities);
+            return _mapper.Map<List<BrandResponse>>(entities);
         }
 
-        public async Task<List<BrandOutputDto>> GetAllWithProductsAsync()
+        public async Task<List<BrandResponse>> GetAllWithProductsAsync()
         {
             IEnumerable<BrandEntity> entities = new List<BrandEntity>();
             try
@@ -78,27 +80,28 @@ namespace GestionStock.Infrastructure.Services
             catch (Exception ex)
             {
                 _logger.LogError($"Problems to retrieve data : {ex.Message}");
+                throw new NullReferenceException();
             }
-            return _mapper.Map<List<BrandOutputDto>>(entities);
+            return _mapper.Map<List<BrandResponse>>(entities);
         }
 
-        public async Task<BrandOutputDto> GetIdAsync(Guid id)
+        public async Task<BrandResponse> GetIdAsync(Guid id)
         {
             BrandEntity entity = await _repository.GetByIdAsync(id);
-            return _mapper.Map<BrandOutputDto>(entity);
+            return _mapper.Map<BrandResponse>(entity);
         }
 
-        public async Task<BrandOutputDto> UpdateAsync(Guid Id, BrandUpdateDto updateDto)
+        public async Task<BrandResponse> UpdateAsync(Guid Id, BrandUpdateRequest updateRequest)
         {
             BrandEntity entity = await _repository.GetByIdAsync(Id);
-            if (entity == null || Id != updateDto.Id)
+            if (entity == null || Id != updateRequest.Id)
             {
                 _logger.LogError($"Brand Id {Id} is not found");
                 throw new KeyNotFoundException("Brand not found");
             }
-            entity = _mapper.Map<BrandEntity>(updateDto);
+            entity = _mapper.Map<BrandEntity>(updateRequest);
             await _repository.UpdateAsync(entity);
-            return _mapper.Map<BrandOutputDto>(entity);
+            return _mapper.Map<BrandResponse>(entity);
         }
     }
 }

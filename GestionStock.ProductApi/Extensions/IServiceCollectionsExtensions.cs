@@ -1,6 +1,8 @@
-﻿using GestionStock.Application.Profiles;
-using GestionStock.DAL.Repositories.Interfaces;
+﻿using GestionStock.DAL.Repositories.Interfaces;
 using GestionStock.DAL.Repositories;
+using GestionStock.Shared.Profiles;
+using GestionStock.ProductApi.Command.Brand;
+using GestionStock.Application.Command;
 
 namespace GestionStock.ProductApi.Extensions
 {

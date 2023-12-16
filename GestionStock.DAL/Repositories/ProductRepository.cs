@@ -1,5 +1,6 @@
 ﻿using GestionStock.DAL;
 using GestionStock.DAL.Repositories.Interfaces;
+using GestionStock.Domain.Common.Interfaces;
 using GestionStock.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,9 +14,11 @@ namespace GestionStock.DAL.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly GestionStockDbContext _context;
-        public ProductRepository(GestionStockDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+        public ProductRepository(GestionStockDbContext context, IUnitOfWork unitOfWork)
         {
             _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<ProductEntity> GetByIdAsync(Guid id)
@@ -45,24 +48,26 @@ namespace GestionStock.DAL.Repositories
 
         }
 
-        public async Task<ProductEntity> InsertAsync(ProductEntity model)
+        public Task<ProductEntity> InsertAsync(ProductEntity model)
         {
             ProductEntity entity = _context.Products.Add(model).Entity;
-            await _context.SaveChangesAsync();
-            return entity;
+            return Task.FromResult(entity);
         }
 
         public async Task<ProductEntity> UpdateAsync(ProductEntity model)
         {
+            var existingEntity = await _context.Products.FindAsync(model.Id);
+            if (existingEntity != null)
+            {
+                _context.Entry(existingEntity).State = EntityState.Detached;
+            }
             _context.Products.Update(model);
-            await _context.SaveChangesAsync();
             return model;
         }
 
-        public async Task DeleteAsync(ProductEntity model)
+        public void DeleteAsync(ProductEntity model)
         {
             _context.Products.Remove(model);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<ProductEntity>> GetProduitsByIdCategory(Guid id)

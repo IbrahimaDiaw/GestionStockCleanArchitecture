@@ -43,11 +43,10 @@ namespace GestionStock.DAL.Repositories
 
         }
 
-        public async Task<BrandEntity> InsertAsync(BrandEntity model)
+        public Task<BrandEntity> InsertAsync(BrandEntity model)
         {
             BrandEntity entity = _context.Brands.Add(model).Entity;
-            await _context.SaveChangesAsync();
-            return entity;
+            return Task.FromResult(entity);
         }
 
         public async Task<BrandEntity> UpdateAsync(BrandEntity entity)
@@ -58,14 +57,12 @@ namespace GestionStock.DAL.Repositories
                 _context.Entry(existingEntity).State = EntityState.Detached;
             }
             _context.Brands.Update(entity);
-            await _context.SaveChangesAsync();
             return entity;
         }
 
-        public async Task DeleteAsync(BrandEntity model)
+        public void DeleteAsync(BrandEntity model)
         {
-            _context.Brands.Remove(model);
-            await _context.SaveChangesAsync();
+             _context.Brands.Remove(model);
         }
     }
 }

@@ -5,11 +5,11 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace GestionStock.Shared.Request.Brand
+namespace GestionStock.Shared.Request.Product
 {
-    public class BrandCreateRequest : BrandInputRequest
+    public class ProductCreateRequest : ProductInputRequest
     {
         [JsonIgnore]
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; }
     }
 }
