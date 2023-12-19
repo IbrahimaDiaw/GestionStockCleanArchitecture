@@ -1,8 +1,6 @@
 ﻿using GestionStock.DAL.Repositories.Interfaces;
 using GestionStock.DAL.Repositories;
 using GestionStock.Shared.Profiles;
-using GestionStock.ProductApi.Command.Brand;
-using GestionStock.Application.Command;
 
 namespace GestionStock.ProductApi.Extensions
 {
@@ -15,10 +13,8 @@ namespace GestionStock.ProductApi.Extensions
         }
         private static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IBrandRepository, BrandRepository>()
-                    .AddTransient<IProductRepository, ProductRepository>()
-                    .AddTransient<ICategoryRepository, CategoryRepository>()
-                    .AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>))
+                    .AddTransient(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
         }
     }
 }

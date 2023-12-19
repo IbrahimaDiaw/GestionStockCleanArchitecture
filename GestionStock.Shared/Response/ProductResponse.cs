@@ -9,7 +9,13 @@ namespace GestionStock.Shared.Response
 {
     public class ProductResponse : ProductInputRequest
     {
-        public CategoryResponse Category { get; set; } = new CategoryResponse();
-        public BrandResponse Brand { get; set; } = new BrandResponse();
+        public CategoryResponseWithoutDependencies Category { get; set; }
+        public BrandResponseWithoutDependencies Brand { get; set; }
     }
+
+    public class ProductResponseWithoutDependencies : ProductInputRequest
+    {
+    }
+
+
 }

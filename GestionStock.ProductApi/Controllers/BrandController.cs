@@ -1,8 +1,6 @@
-﻿using GestionStock.Infrastructure.Services.Interfaces;
-using GestionStock.Shared.Request.Brand;
+﻿using GestionStock.Shared.Request.Brand;
 using GestionStock.Shared.Response;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using static GestionStock.ProductApi.Command.Brand.BrandCommand;
 
@@ -12,12 +10,10 @@ namespace GestionStock.ProductApi.Controllers
     [ApiController]
     public class BrandController : ControllerBase
     {
-        private readonly IBrandService _brandService;
         private readonly IMediator _mediator;
 
-        public BrandController(IBrandService brandService , IMediator mediator)
+        public BrandController(IMediator mediator)
         {
-            _brandService = brandService;
             _mediator = mediator;
         }
         [HttpPost]
@@ -40,13 +36,8 @@ namespace GestionStock.ProductApi.Controllers
         [Route("get-all-brands")]
         public async Task<ActionResult<List<BrandResponse>>> GetAllBrands()
         {
-            return Ok(await _brandService.GetAllAsync());
-        }
-        [HttpGet]
-        [Route("get-all-brands-with-products")]
-        public async Task<ActionResult<List<BrandResponse>>> GetAllWithProducts()
-        {
-            return Ok(await _brandService.GetAllWithProductsAsync());
+            var brandCommand = new GetAllBrandCommand();
+            return Ok(await _mediator.Send(brandCommand));
         }
         [HttpPut]
         [Route("update-brand/{Id:guid}")]
@@ -61,8 +52,8 @@ namespace GestionStock.ProductApi.Controllers
         [Route("delete-brand/{Id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid Id)
         {
-             _brandService.DeleteAsync(Id);
-            return Ok(true);
+            var brandCommand = new DeleteCommand(Id);
+            return Ok(await _mediator.Send(brandCommand));
         }
     }
 }

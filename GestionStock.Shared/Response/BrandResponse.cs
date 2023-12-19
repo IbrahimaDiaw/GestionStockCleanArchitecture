@@ -9,6 +9,8 @@ namespace GestionStock.Shared.Response
 {
     public class BrandResponse : BrandInputRequest
     {
-        public List<ProductResponse> Products { get; set; } = new List<ProductResponse>();
+        public List<ProductResponse> Products { get; set; }
     }
+
+    public class BrandResponseWithoutDependencies : BrandInputRequest { }
 }

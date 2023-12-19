@@ -16,12 +16,12 @@ namespace GestionStock.Infrastructure.Services
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryRepository _repository;
+        private readonly IGenericRepository<CategoryEntity> _repository;
         private readonly IMapper _mapper;
         private readonly ILogger<CategoryService> _logger;
         public CategoryService(IServiceProvider serviceProvider)
         {
-            _repository  = serviceProvider.GetRequiredService<ICategoryRepository>();
+            _repository  = serviceProvider.GetRequiredService<IGenericRepository<CategoryEntity>>();
             _mapper = serviceProvider.GetRequiredService<IMapper>();
             _logger = serviceProvider.GetRequiredService<ILogger<CategoryService>>();
         }

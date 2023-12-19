@@ -16,6 +16,7 @@ namespace GestionStock.Shared.Profiles
         {
             CreateMap<CategoryEntity, CategoryInputRequest>().ReverseMap();
             CreateMap<CategoryEntity, CategoryResponse>().ReverseMap();
+            CreateMap<CategoryEntity, CategoryResponseWithoutDependencies>().ReverseMap();
             CreateMap<CategoryEntity, CategoryCreateRequest>().ReverseMap();
             CreateMap<CategoryEntity, CategoryUpdateRequest>().ReverseMap();
         }

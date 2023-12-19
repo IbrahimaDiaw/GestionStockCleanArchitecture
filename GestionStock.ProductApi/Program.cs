@@ -1,7 +1,6 @@
 
 using GestionStock.DAL;
 using GestionStock.ProductApi.Extensions;
-using GestionStock.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using GestionStock.Application.Command;
@@ -10,7 +9,6 @@ using GestionStock.ProductApi.Command.Brand;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddServicesExtenstion();
 builder.Services.AddRepositoriesExtenstion();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

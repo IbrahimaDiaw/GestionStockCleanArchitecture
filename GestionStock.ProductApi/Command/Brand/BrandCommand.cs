@@ -31,10 +31,23 @@ namespace GestionStock.ProductApi.Command.Brand
         {
             public GetBrandCommand(Guid id)
             {
-                Id = Id;
+                Id = id;
             }
             public Guid Id { get; set; }
         }
 
+        public class GetAllBrandCommand : ICommand<List<BrandResponse>>
+        {
+            public GetAllBrandCommand(){}
+        }
+
+        public class DeleteCommand : ICommand<BrandResponse>
+        {
+            public DeleteCommand(Guid id)
+            {
+                Id = id;
+            }
+            public Guid Id { get; set; }
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace GestionStock.Shared.Profiles
             CreateMap<BrandEntity, BrandCreateRequest>().ReverseMap();
             CreateMap<BrandEntity, BrandInputRequest>().ReverseMap();
             CreateMap<BrandEntity, BrandResponse>().ReverseMap();
+            CreateMap<BrandEntity, BrandResponseWithoutDependencies>().ReverseMap();
             CreateMap<BrandEntity, BrandUpdateRequest>().ReverseMap();
         }
     }

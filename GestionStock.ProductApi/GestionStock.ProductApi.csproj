@@ -28,7 +28,6 @@
     <ProjectReference Include="..\GestionStock.Application\GestionStock.Application.csproj" />
     <ProjectReference Include="..\GestionStock.DAL\GestionStock.DAL.csproj" />
     <ProjectReference Include="..\GestionStock.Domain\GestionStock.Domain.csproj" />
-    <ProjectReference Include="..\GestionStock.Infrastructure\GestionStock.Infrastruture.csproj" />
     <ProjectReference Include="..\GestionStock.Shared\GestionStock.Shared.csproj" />
   </ItemGroup>
 

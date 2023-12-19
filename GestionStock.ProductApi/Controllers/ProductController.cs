@@ -1,8 +1,8 @@
-﻿using GestionStock.Infrastructure.Services.Interfaces;
-using GestionStock.Shared.Request.Product;
+﻿using GestionStock.Shared.Request.Product;
 using GestionStock.Shared.Response;
-using Microsoft.AspNetCore.Http;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static GestionStock.ProductApi.Command.Product.ProductCommand;
 
 namespace GestionStock.ProductApi.Controllers
 {
@@ -10,17 +10,18 @@ namespace GestionStock.ProductApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IProductService _productService;
-        public ProductController(IProductService productService)
+        private readonly IMediator _mediator;
+        public ProductController(IMediator mediator)
         {
-            _productService = productService;
+            _mediator = mediator;
         }
 
         [HttpPost]
         [Route("create-product")]
         public async Task<ActionResult<ProductResponse>> CreateProduct(ProductCreateRequest input)
         {
-            ProductResponse output = await _productService.CreateAsync(input);
+            var result = new CreateProductCommand(input);
+            ProductResponse output = await _mediator.Send(result);
             return Ok(output);
         }
 
@@ -28,19 +29,22 @@ namespace GestionStock.ProductApi.Controllers
         [Route("get-product-id/{Id:guid}")]
         public async Task<ActionResult<ProductResponse>> GetProductById(Guid Id)
         {
-            return Ok(await _productService.GetIdAsync(Id));
+            var brandCommand = new GetProductCommand(Id);
+            return Ok(await _mediator.Send(brandCommand));
         }
         [HttpGet]
         [Route("get-all-products")]
         public async Task<ActionResult<List<ProductResponse>>> GetAllProducts()
         {
-            return Ok(await _productService.GetAllAsync());
+            var brandCommand = new GetAllProductCommand();
+            return Ok(await _mediator.Send(brandCommand));
         }
         [HttpPut]
         [Route("update-product/{Id:guid}")]
         public async Task<ActionResult<ProductResponse>> UpdateAsync(Guid Id, ProductUpdateRequest updateRequest)
         {
-            ProductResponse result = await _productService.UpdateAsync(Id, updateRequest);
+            var brandCommand = new UpdateProductCommand(Id, updateRequest);
+            ProductResponse result = await _mediator.Send(brandCommand);
             return Ok(result);
         }
 
@@ -48,8 +52,8 @@ namespace GestionStock.ProductApi.Controllers
         [Route("delete-product/{Id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid Id)
         {
-            _productService.DeleteAsync(Id);
-            return Ok(true);
+            var brandCommand = new DeleteCommand(Id);
+            return Ok(await _mediator.Send(brandCommand));
         }
     }
 }

@@ -1,11 +1,7 @@
-﻿using AutoMapper;
-using GestionStock.Application.Command;
-using GestionStock.DAL.Repositories;
-using GestionStock.DAL.Repositories.Interfaces;
+﻿using GestionStock.Application.Command;
 using GestionStock.Domain.Entities;
-using GestionStock.Infrastructure.Services;
+using GestionStock.ProductApi.Common;
 using GestionStock.Shared.Response;
-using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using static GestionStock.ProductApi.Command.Brand.BrandCommand;
 
@@ -13,7 +9,7 @@ namespace GestionStock.ProductApi.Command.Brand
 {
     public static class BrandCommandHandler
     {
-        public class CreateBrandHandler : BrandGeneralCommand<CreateBrandHandler>, ICommandHandler<CreateBrandCommand, BrandResponse>
+        public class CreateBrandHandler : GeneralCommandHandler<CreateBrandHandler, BrandEntity>, ICommandHandler<CreateBrandCommand, BrandResponse>
         {
             public CreateBrandHandler(IServiceProvider serviceProvider)
                 : base(serviceProvider)
@@ -24,7 +20,7 @@ namespace GestionStock.ProductApi.Command.Brand
                 BrandEntity entity = _mapper.Map<BrandEntity>(request.Brand);
                 try
                 {
-                    await _repository.InsertAsync(entity);
+                    await _unitOfWork.Repository.InsertAsync(entity);
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
                 }
                 catch (Exception ex)
@@ -36,7 +32,7 @@ namespace GestionStock.ProductApi.Command.Brand
                 return _mapper.Map<BrandResponse>(entity);
             }
         }
-        public class GetByIdBrandHandler : BrandGeneralCommand<GetByIdBrandHandler>, ICommandHandler<GetBrandCommand, BrandResponse>
+        public class GetByIdBrandHandler : GeneralCommandHandler<GetByIdBrandHandler, BrandEntity>, ICommandHandler<GetBrandCommand, BrandResponse>
         {
             public GetByIdBrandHandler(IServiceProvider serviceProvider) 
                 : base(serviceProvider)
@@ -47,7 +43,7 @@ namespace GestionStock.ProductApi.Command.Brand
             {
                 try
                 {
-                    BrandEntity entity = await _repository.GetByIdAsync(request.Id);
+                    BrandEntity entity = await _unitOfWork.Repository.GetByIdAsync(request.Id);
                     return _mapper.Map<BrandResponse>(entity);
                 }
                 catch (Exception ex)
@@ -57,7 +53,7 @@ namespace GestionStock.ProductApi.Command.Brand
                 }
             }
         }
-        public class UpdateBrandHandler : BrandGeneralCommand<UpdateBrandHandler>, ICommandHandler<UpdateBrandCommand, BrandResponse>
+        public class UpdateBrandHandler : GeneralCommandHandler<UpdateBrandHandler, BrandEntity>, ICommandHandler<UpdateBrandCommand, BrandResponse>
         {
             public UpdateBrandHandler(IServiceProvider serviceProvider) 
                 : base(serviceProvider)
@@ -69,14 +65,14 @@ namespace GestionStock.ProductApi.Command.Brand
                 try
                 {
 
-                    BrandEntity entity = await _repository.GetByIdAsync(request.Id);
+                    BrandEntity entity = await _unitOfWork.Repository.GetByIdAsync(request.Id);
                     if (entity == null || request.Id != request.Brand.Id)
                     {
                         _logger.LogError($"Brand Id {request.Id} is not found");
                         throw new KeyNotFoundException("Brand not found");
                     }
                     entity = _mapper.Map<BrandEntity>(request.Brand);
-                    await _repository.UpdateAsync(entity);
+                    await _unitOfWork.Repository.UpdateAsync(entity);
                     await _unitOfWork.SaveChangesAsync(cancellationToken);
                     return _mapper.Map<BrandResponse>(entity);
 
@@ -88,5 +84,23 @@ namespace GestionStock.ProductApi.Command.Brand
             }
         }
 
+        public class GetAllBrandCommandHandler : GeneralCommandHandler<GetAllBrandCommandHandler, BrandEntity>, ICommandHandler<GetAllBrandCommand, List<BrandResponse>>
+        {
+            public GetAllBrandCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider) { }
+
+            public async Task<List<BrandResponse>> Handle(GetAllBrandCommand request, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var entities = await _unitOfWork.Repository.GetAllAsync();
+                    return _mapper.Map<List<BrandResponse>>(entities);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Problems to retrieve data : {ex.Message}");
+                    throw new NullReferenceException();
+                }
+            }
+        }
     }
 }

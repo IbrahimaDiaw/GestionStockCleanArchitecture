@@ -16,13 +16,13 @@ namespace GestionStock.Infrastructure.Services
 {
     public class BrandService : IBrandService
     {
-        private readonly IBrandRepository _repository;
+        private readonly IGenericRepository<BrandEntity> _repository;
         private readonly IMapper _mapper;
         private readonly ILogger<BrandService> _logger;
 
         public BrandService(IServiceProvider serviceProvider)
         {
-            _repository = serviceProvider.GetRequiredService<IBrandRepository>();
+            _repository = serviceProvider.GetRequiredService<IGenericRepository<BrandEntity>>();
             _mapper = serviceProvider.GetRequiredService<IMapper>();
             _logger = serviceProvider.GetRequiredService<ILogger<BrandService>>();
         }
@@ -75,7 +75,7 @@ namespace GestionStock.Infrastructure.Services
             IEnumerable<BrandEntity> entities = new List<BrandEntity>();
             try
             {
-                entities = await _repository.GetAllWithDependances();
+                entities = await _repository.GetAllAsync();
             }
             catch (Exception ex)
             {

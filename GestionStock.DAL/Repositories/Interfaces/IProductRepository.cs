@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GestionStock.DAL.Repositories.Interfaces
 {
-    public interface IProductRepository : IRepositoryBase<ProductEntity>
+    public interface IProductRepository : IGenericRepository<ProductEntity>
     {
         Task<IEnumerable<ProductEntity>> GetProduitsByIdCategory(Guid categoryId);
         Task<IEnumerable<ProductEntity>> GetProduitsByIdBrand(Guid bandId);
