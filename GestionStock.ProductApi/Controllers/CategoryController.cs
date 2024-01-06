@@ -1,4 +1,5 @@
-﻿using GestionStock.Shared.Request.Category;
+﻿using GestionStock.Shared.Common;
+using GestionStock.Shared.Request.Category;
 using GestionStock.Shared.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ namespace GestionStock.ProductApi.Controllers
         {
             var result = new CreateCategoryCommand(input);
             CategoryResponse output = await _mediator.Send(result);
-            return Ok(output);
+            return Ok(await Result<CategoryResponse>.SuccessAsync(output));
         }
 
         [HttpGet]
@@ -30,14 +31,16 @@ namespace GestionStock.ProductApi.Controllers
         public async Task<ActionResult<CategoryResponse>> GetCateogryById(Guid Id)
         {
             var brandCommand = new GetCategoryCommand(Id);
-            return Ok(await _mediator.Send(brandCommand));
+           var result = await _mediator.Send(brandCommand);
+            return Ok(result);
         }
         [HttpGet]
         [Route("get-all-categories")]
         public async Task<ActionResult<List<CategoryResponse>>> GetAllCategories()
         {
             var brandCommand = new GetAllCategoryCommand();
-            return Ok(await _mediator.Send(brandCommand));
+            var result = await _mediator.Send(brandCommand);
+            return Ok(await Result<List<CategoryResponse>>.SuccessAsync(result)); ;
         }
         [HttpPut]
         [Route("update-category/{Id:guid}")]
@@ -45,7 +48,7 @@ namespace GestionStock.ProductApi.Controllers
         {
             var brandCommand = new UpdateCategoryCommand(Id, updateRequest);
             CategoryResponse result = await _mediator.Send(brandCommand);
-            return Ok(result);
+            return Ok(await Result<CategoryResponse>.SuccessAsync(result));
         }
 
         [HttpDelete]
@@ -53,7 +56,8 @@ namespace GestionStock.ProductApi.Controllers
         public async Task<IActionResult> DeleteAsync(Guid Id)
         {
             var brandCommand = new DeleteCommand(Id);
-            return Ok(await _mediator.Send(brandCommand));
+            var result = await _mediator.Send(brandCommand);
+            return Ok(await Result<CategoryResponse>.SuccessAsync(result));
         }
     }
 }

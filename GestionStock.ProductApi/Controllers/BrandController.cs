@@ -1,4 +1,5 @@
-﻿using GestionStock.Shared.Request.Brand;
+﻿using GestionStock.Shared.Common;
+using GestionStock.Shared.Request.Brand;
 using GestionStock.Shared.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,8 @@ namespace GestionStock.ProductApi.Controllers
         public async Task<ActionResult<List<BrandResponse>>> GetAllBrands()
         {
             var brandCommand = new GetAllBrandCommand();
-            return Ok(await _mediator.Send(brandCommand));
+            var result = await _mediator.Send(brandCommand);
+            return Ok(await Result<List<BrandResponse>>.SuccessAsync(result));
         }
         [HttpPut]
         [Route("update-brand/{Id:guid}")]
@@ -45,7 +47,7 @@ namespace GestionStock.ProductApi.Controllers
         {
             var brandCommand = new UpdateBrandCommand(Id, brandUpdateRequest);
             BrandResponse result = await _mediator.Send(brandCommand);
-            return Ok(result);
+            return Ok(await Result<BrandResponse>.SuccessAsync(result));
         }
 
         [HttpDelete]
@@ -53,7 +55,8 @@ namespace GestionStock.ProductApi.Controllers
         public async Task<IActionResult> DeleteAsync(Guid Id)
         {
             var brandCommand = new DeleteCommand(Id);
-            return Ok(await _mediator.Send(brandCommand));
+            var result = await _mediator.Send(brandCommand);
+            return Ok(await Result<bool>.SuccessAsync(result));
         }
     }
 }

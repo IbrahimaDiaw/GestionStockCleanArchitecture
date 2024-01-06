@@ -1,0 +1,32 @@
+﻿@page "/brand/edit/{Id}"
+@using GestionStock.Shared.Request.Brand;
+@using GestionStock.Shared.Response;
+
+<PageTitle>Update brand</PageTitle>
+
+
+@if (_loading)
+{
+    <div style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    </div>
+}
+else {
+<MudCard Elevation="25">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">Edit Brand</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardContent>
+        <MudTextField @bind-Value="@_brandModel.Name" Label="Name" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <MudTextField @bind-Value="@_brandModel.Description" Label="Description" Variant="Variant.Text" Margin="Margin.Normal"></MudTextField>
+        <br />
+        <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="Update">Save brand</MudButton>
+    </MudCardContent>
+</MudCard>
+}
+
+@code {
+
+}

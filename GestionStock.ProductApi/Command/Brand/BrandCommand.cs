@@ -41,7 +41,7 @@ namespace GestionStock.ProductApi.Command.Brand
             public GetAllBrandCommand(){}
         }
 
-        public class DeleteCommand : ICommand<BrandResponse>
+        public class DeleteCommand : ICommand<bool>
         {
             public DeleteCommand(Guid id)
             {
