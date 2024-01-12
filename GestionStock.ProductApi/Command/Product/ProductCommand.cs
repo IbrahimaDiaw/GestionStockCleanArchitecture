@@ -41,7 +41,7 @@ namespace GestionStock.ProductApi.Command.Product
             public GetAllProductCommand(){}
         }
 
-        public class DeleteCommand : ICommand<ProductResponse>
+        public class DeleteCommand : ICommand<bool>
         {
             public DeleteCommand(Guid id)
             {

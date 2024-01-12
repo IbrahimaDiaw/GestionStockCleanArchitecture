@@ -107,5 +107,25 @@ namespace GestionStock.ProductApi.Command.Product
                 }
             }
         }
+
+        public class DeleteProductCommandHandler : GeneralCommandHandler<DeleteProductCommandHandler, ProductEntity>, ICommandHandler<DeleteCommand, bool>
+        {
+            public DeleteProductCommandHandler(IServiceProvider serviceProvider) : base(serviceProvider) { }
+            public async Task<bool> Handle(DeleteCommand request, CancellationToken cancellationToken)
+            {
+                try
+                {
+                    var entity = await _unitOfWork.Repository.GetByIdAsync(request.Id);
+                    var result = await _unitOfWork.Repository.DeleteAsync(entity);
+                    await _unitOfWork.SaveChangesAsync(cancellationToken);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Brand Id {request.Id} is not found");
+                    throw new KeyNotFoundException("Brand not found", ex);
+                }
+            }
+        }
     }
 }

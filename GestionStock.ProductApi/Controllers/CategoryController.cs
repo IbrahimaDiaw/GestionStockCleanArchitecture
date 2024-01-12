@@ -30,24 +30,24 @@ namespace GestionStock.ProductApi.Controllers
         [Route("get-category-id/{Id:guid}")]
         public async Task<ActionResult<CategoryResponse>> GetCateogryById(Guid Id)
         {
-            var brandCommand = new GetCategoryCommand(Id);
-           var result = await _mediator.Send(brandCommand);
+            var categoryCommand = new GetCategoryCommand(Id);
+           var result = await _mediator.Send(categoryCommand);
             return Ok(result);
         }
         [HttpGet]
         [Route("get-all-categories")]
         public async Task<ActionResult<List<CategoryResponse>>> GetAllCategories()
         {
-            var brandCommand = new GetAllCategoryCommand();
-            var result = await _mediator.Send(brandCommand);
-            return Ok(await Result<List<CategoryResponse>>.SuccessAsync(result)); ;
+            var categoryCommand = new GetAllCategoryCommand();
+            var result = await _mediator.Send(categoryCommand);
+            return Ok(await Result<List<CategoryResponse>>.SuccessAsync(result));
         }
         [HttpPut]
         [Route("update-category/{Id:guid}")]
         public async Task<ActionResult<CategoryResponse>> UpdateAsync(Guid Id, CategoryUpdateRequest updateRequest)
         {
-            var brandCommand = new UpdateCategoryCommand(Id, updateRequest);
-            CategoryResponse result = await _mediator.Send(brandCommand);
+            var categoryCommand = new UpdateCategoryCommand(Id, updateRequest);
+            CategoryResponse result = await _mediator.Send(categoryCommand);
             return Ok(await Result<CategoryResponse>.SuccessAsync(result));
         }
 
@@ -55,9 +55,9 @@ namespace GestionStock.ProductApi.Controllers
         [Route("delete-category/{Id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid Id)
         {
-            var brandCommand = new DeleteCommand(Id);
-            var result = await _mediator.Send(brandCommand);
-            return Ok(await Result<CategoryResponse>.SuccessAsync(result));
+            var categoryCommand = new DeleteCommand(Id);
+            var result = await _mediator.Send(categoryCommand);
+            return Ok(await Result<bool>.SuccessAsync(result));
         }
     }
 }
